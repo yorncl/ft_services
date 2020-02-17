@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+      run: nginx-server
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      run: nginx-server
+  template:
+    metadata:
+      labels:
+        app: ft_services
+        run: nginx-server
+    spec:
+      containers:
+      - name: nginx-pod
+        image: custom-nginx:1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+
+

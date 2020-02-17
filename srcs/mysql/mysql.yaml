@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+      run: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ft_services
+      run: mysql
+  template:
+    metadata:
+      labels:
+        app: ft_services
+        run: mysql
+    spec:
+      containers:
+      - name: mysql-pod
+        image: custom-mysql:1
+        imagePullPolicy: Never
