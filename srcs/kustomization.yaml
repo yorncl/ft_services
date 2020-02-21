@@ -1,3 +1,15 @@
+secretGenerator:
+- name: mysql-info
+  literals:
+  - user-wp=wordpress_user
+  - password-wp=efficaceetpascher
+  - db-wp=wordpress_db
+
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=YOUR_PASSWORD
+
 resources:
   - 'nginx/nginx.yaml'
   - 'wordpress/wordpress.yaml'

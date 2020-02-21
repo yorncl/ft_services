@@ -1,6 +1,5 @@
-#minikube start --extra-config=apiserver.service-node-port-range=80-60000
-
-#minikube addons enable ingress
+# minikube start --extra-config=apiserver.service-node-port-range=80-60000 --cpus 3 --memory=3000mb
+# minikube addons enable ingress
 
 kubectl delete -k srcs
 

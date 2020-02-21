@@ -1,33 +1,82 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-service
+  name: wordpress
+  labels:
+    app: wordpress
 spec:
-  type: "NodePort"
-  selector:
-      run: wordpress
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
+    - port: 80
       nodePort: 5050
+  selector:
+    app: wordpress
+    tier: frontend
+  type: NodePort
 ---
-apiVersion: apps/v1
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: wodpress-deployment
+  name: wordpress
+  labels:
+    app: wordpress
 spec:
   selector:
     matchLabels:
-      app: ft_services
-      run: wordpress
+      app: wordpress
+      tier: frontend
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: ft_services
-        run: wordpress
+        app: wordpress
+        tier: frontend
     spec:
       containers:
-      - name: wordpress-pod
-        image: custom-wordpress:1
+      - image: custom-wordpress:1
         imagePullPolicy: Never
+        name: wordpress
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: wordpress-mysql
+        - name: WORDPRESS_DB_NAME
+          value: wordpress_db
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: mysql-info
+          #     key: db-wp
+        - name: WORDPRESS_DB_USER
+          value: wordpress_user
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: mysql-info
+          #     key: user-wp
+        - name: WORDPRESS_DB_PASSWORD
+          value: efficaceetpascher
+          # valueFrom:
+          #   secretKeyRef:
+          #     name: mysql-info
+          #     key: password-wp
+        ports:
+        - containerPort: 80
+          name: wordpress
+      #   volumeMounts:
+      #   - name: wordpress-persistent-storage
+      #     mountPath: /var/www/html
+      # volumes:
+      # - name: wordpress-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: wp-pv-claim
