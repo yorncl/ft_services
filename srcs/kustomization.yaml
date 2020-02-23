@@ -16,3 +16,6 @@ resources:
   - 'phpmyadmin/phpmyadmin.yaml'
   - 'ingress/ingress.yaml'
   - 'mysql/mysql.yaml'
+  - 'influxdb/influxdb.yaml'
+  - 'telegraf/telegraf.yaml'
+  - 'grafana/grafana.yaml'

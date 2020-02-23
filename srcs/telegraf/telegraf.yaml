@@ -1,0 +1,80 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: influx:cluster:viewer
+  labels:
+    rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes", "nodes"]
+    verbs: ["get", "list"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: influx:telegraf:viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: influx:cluster:viewer
+subjects:
+  - kind: User
+    name: system:anonymous
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: telegraf
+  labels:
+    app: telegraf
+spec:
+  ports:
+    - port: 8086
+  selector:
+    app: telegraf
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: wp-pv-claim
+#   labels:
+#     app: telegraf
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 20Gi
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegraf
+  labels:
+    app: telegraf
+spec:
+  selector:
+    matchLabels:
+      app: telegraf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      containers:
+      - image: telegraf:1.11-alpine
+        # imagePullPolicy: Never
+        name: telegraf
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/telegraf/
+      volumes:
+        - name: config-volume
+          configMap:
+            name: telegraf-config
