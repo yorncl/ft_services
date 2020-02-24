@@ -6,7 +6,7 @@ metadata:
     rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
 rules:
   - apiGroups: [""]
-    resources: ["persistentvolumes", "nodes","statefulsets"]
+    resources: ["persistentvolumes", "nodes","statefulsets","pods"]
     verbs: ["get", "list"]
 ---
 kind: ClusterRole

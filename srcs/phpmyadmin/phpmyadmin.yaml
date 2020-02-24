@@ -1,31 +1,70 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: apache-service
-# spec:
-#   selector:
-#       run: apache-server
-#   ports:
-#     - protocol: TCP
-#       port: 5678
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: apache-deployment
-# spec:
-#   selector:
-#     matchLabels:
-#       app: ft_services
-#       run: apache-server
-#   template:
-#     metadata:
-#       labels:
-#         app: ft_services
-#         run: apache-server
-#     spec:
-#       containers:
-#       - name: apache-pod
-#         image: hashicorp/http-echo
-#         args:
-#         - "-text=Plz work dude I'm begging you"
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin
+  labels:
+    app: phpmyadmin
+spec:
+  ports:
+    - port: 80
+      nodePort: 5000
+  selector:
+    app: phpmyadmin
+  type: NodePort
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: phpmyadmin
+  labels:
+    app: phpmyadmin
+spec:
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - image: custom-phpmyadmin:1
+        imagePullPolicy: Never
+        name: phpmyadmin
+        env:
+        - name: PMA_HOST
+          value: mysql
+        - name: PMA_USER
+          value: pma
+        - name: PMA_PASSWORD
+          value: cestlamafquejprefere
+        # - name: WORDPRESS_DB_NAME
+        #   value: wordpress_db
+        #   # valueFrom:
+        #   #   secretKeyRef:
+        #   #     name: mysql-info
+        #   #     key: db-wp
+        # - name: WORDPRESS_DB_USER
+        #   value: wordpress_user
+        #   # valueFrom:
+        #   #   secretKeyRef:
+        #   #     name: mysql-info
+        #   #     key: user-wp
+        # - name: WORDPRESS_DB_PASSWORD
+        #   value: efficaceetpascher
+        #   # valueFrom:
+        #   #   secretKeyRef:
+        #   #     name: mysql-info
+        #   #     key: password-wp
+        ports:
+        - containerPort: 80
+          name: wordpress
+      #   volumeMounts:
+      #   - name: wordpress-persistent-storage
+      #     mountPath: /var/www/html
+      # volumes:
+      # - name: wordpress-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: wp-pv-claim
