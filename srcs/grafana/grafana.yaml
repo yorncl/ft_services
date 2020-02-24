@@ -46,3 +46,15 @@ spec:
       - image: grafana/grafana
         # imagePullPolicy: Never
         name: grafana
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/grafana/
+        - name: config-volume-datasources
+          mountPath: /etc/grafana/provisioning/datasources
+      volumes:
+        - name: config-volume
+          configMap:
+            name: grafana-config
+        - name: config-volume-datasources
+          configMap:
+            name: grafana-datasources-config

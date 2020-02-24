@@ -1,6 +1,10 @@
-minikube start --extra-config=apiserver.service-node-port-range=80-60000 --cpus 3 --memory=3000mb
-minikube addons enable ingress
-minikube addons enable metrics-server
+# minikube start \
+# 	--bootstrapper=kubeadm \
+# 	--extra-config=apiserver.service-node-port-range=80-60000 \
+# 	--cpus 3 \
+# 	--memory=3000mb
+# minikube addons enable ingress
+# minikube addons enable metrics-server
 
 kubectl delete -k srcs
 
@@ -11,6 +15,8 @@ docker build -t custom-mysql:1 ./srcs/mysql/
 
 
 kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf -o yaml --dry-run | kubectl replace -f - || kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf
+kubectl create configmap grafana-config --from-file=srcs/grafana/grafana.ini -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-config --from-file=srcs/grafana/grafana.ini
+kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/default.ini -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/default.ini
 kubectl apply -k srcs
 
 minikube dashboard

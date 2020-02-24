@@ -6,11 +6,21 @@ metadata:
     rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
 rules:
   - apiGroups: [""]
-    resources: ["persistentvolumes", "nodes"]
+    resources: ["persistentvolumes", "nodes","statefulsets"]
     verbs: ["get", "list"]
-
 ---
-
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: influx:telegraf
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules: []
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -18,13 +28,17 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: influx:cluster:viewer
+  name: influx:telegraf
 subjects:
-  - kind: User
-    name: system:anonymous
-
+  - kind: ServiceAccount
+    name: telegraf-account
+    namespace: default
 ---
-
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: telegraf-account
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,19 +51,7 @@ spec:
   selector:
     app: telegraf
 ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: wp-pv-claim
-#   labels:
-#     app: telegraf
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 20Gi
-# ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -67,9 +69,9 @@ spec:
       labels:
         app: telegraf
     spec:
+      serviceAccountName: telegraf-account
       containers:
-      - image: telegraf:1.11-alpine
-        # imagePullPolicy: Never
+      - image: telegraf:alpine
         name: telegraf
         volumeMounts:
         - name: config-volume
