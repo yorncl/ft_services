@@ -1,9 +1,9 @@
-minikube start \
-	--bootstrapper=kubeadm \
-	--extra-config=apiserver.service-node-port-range=1-60000 \
-	--cpus 3 \
-	--memory=3000mb \
-	--vm-driver=virtualbox
+# minikube start \
+# 	--bootstrapper=kubeadm \
+# 	--extra-config=apiserver.service-node-port-range=1-60000 \
+# 	--cpus 3 \
+# 	--memory=3000mb \
+# 	--vm-driver=virtualbox
 minikube addons enable ingress
 minikube addons enable metrics-server
 

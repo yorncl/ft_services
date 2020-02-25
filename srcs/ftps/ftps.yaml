@@ -7,6 +7,7 @@ spec:
       run: ftps
   ports:
     - port: 21
+      targetPort: 21
       nodePort: 21
   type: NodePort
 ---
