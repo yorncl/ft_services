@@ -4,11 +4,16 @@ metadata:
   name: ftps
 spec:
   selector:
-      run: ftps
+      app: ftps
   ports:
-    - port: 21
+    - name: port1
+      port: 21
       targetPort: 21
       nodePort: 21
+    - name: port2
+      port: 20
+      targetPort: 20
+      nodePort: 20
   type: NodePort
 ---
 apiVersion: apps/v1
@@ -18,14 +23,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: ftps
+      app: ftps
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: ft_services
-        run: ftps
+        app: ftps
     spec:
       containers:
       - name: ftps
@@ -33,5 +37,6 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 21
+        - containerPort: 20
 
 
