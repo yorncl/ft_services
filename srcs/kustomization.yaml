@@ -11,12 +11,12 @@ secretGenerator:
   - password=YOUR_PASSWORD
 
 resources:
-  # - 'nginx/nginx.yaml'
-  # - 'wordpress/wordpress.yaml'
-  # - 'phpmyadmin/phpmyadmin.yaml'
-  # - 'ingress/ingress.yaml'
-  # - 'mysql/mysql.yaml'
+  - 'nginx/nginx.yaml'
+  - 'wordpress/wordpress.yaml'
+  - 'phpmyadmin/phpmyadmin.yaml'
+  - 'ingress/ingress.yaml'
+  - 'mysql/mysql.yaml'
   - 'influxdb/influxdb.yaml'
   - 'telegraf/telegraf.yaml'
   - 'grafana/grafana.yaml'
-  # - 'ftps/ftps.yaml'
+  - 'ftps/ftps.yaml'
