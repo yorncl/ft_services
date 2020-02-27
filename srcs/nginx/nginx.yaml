@@ -1,10 +1,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: ssh
+  labels:
+    app: ssh
+spec:
+  ports:
+    - port: 22
+      nodePort: 22
+  selector:
+    app: ft_services
+    run: nginx
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
 spec:
   selector:
-      run: nginx-server
+      run: nginx
   ports:
     - name: http
       protocol: TCP
@@ -18,22 +33,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx
 spec:
   selector:
     matchLabels:
-      run: nginx-server
+      run: nginx
   template:
     metadata:
       labels:
         app: ft_services
-        run: nginx-server
+        run: nginx
     spec:
       containers:
-      - name: nginx-pod
+      - name: nginx
         image: custom-nginx:1
         imagePullPolicy: Never
         ports:
         - containerPort: 80
+        - containerPort: 443
+        - containerPort: 22
 
 

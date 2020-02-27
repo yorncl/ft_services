@@ -6,14 +6,18 @@ spec:
   selector:
       app: ftps
   ports:
-    - name: port1
+    - name: in1
       port: 21
       targetPort: 21
       nodePort: 21
-    - name: port2
+    - name: in2
       port: 20
       targetPort: 20
       nodePort: 20
+    - name: out
+      port: 20000
+      targetPort: 20000
+      nodePort: 20000
   type: NodePort
 ---
 apiVersion: apps/v1

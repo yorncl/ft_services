@@ -45,14 +45,19 @@ spec:
       containers:
       - image: grafana/grafana
         # imagePullPolicy: Never
-        env:
-        - name: GF_PATHS_PROVISIONING
-          value: /prov
+        # env:
+        # - name: GF_PATHS_PROVISIONING
+        #   value: /prov
         name: grafana
         volumeMounts:
         - name: config-volume-datasources
-          mountPath: /prov/datasources
+          mountPath: /etc/grafana/provisioning/datasources
+        - name: config-volume-dashboards
+          mountPath: /etc/grafana/provisioning/dashboards
       volumes:
         - name: config-volume-datasources
           configMap:
             name: grafana-datasources-config
+        - name: config-volume-dashboards
+          configMap:
+            name: grafana-dashboards-config

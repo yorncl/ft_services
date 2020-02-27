@@ -4,8 +4,9 @@
 # 	--cpus 3 \
 # 	--memory=3000mb \
 # 	--vm-driver=virtualbox
-minikube addons enable ingress
-minikube addons enable metrics-server
+# minikube addons enable ingress
+# minikube addons enable metrics-server
+# minikube addons enable dashboard
 
 kubectl delete -k srcs
 
@@ -19,6 +20,7 @@ docker build -t custom-ftps:1 ./srcs/ftps/
 
 kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf -o yaml --dry-run | kubectl replace -f - || kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf
 kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/datasource.yaml -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/datasource.yaml
+kubectl create configmap grafana-dashboards-config --from-file=srcs/grafana/dashboards/ -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-dashboards-config --from-file=srcs/grafana/dashboards/
 kubectl apply -k srcs
 
 minikube dashboard
