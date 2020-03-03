@@ -48,12 +48,5 @@ spec:
     spec:
       serviceAccountName: telegraf-account
       containers:
-      - image: telegraf:alpine
+      - image: custom-telegraf:1
         name: telegraf
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/telegraf/
-      volumes:
-        - name: config-volume
-          configMap:
-            name: telegraf-config

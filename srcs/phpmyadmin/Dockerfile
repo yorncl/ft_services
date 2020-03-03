@@ -1,4 +1,7 @@
-FROM phpmyadmin/phpmyadmin:fpm-alpine
+FROM alpine:latest
+
+php-mbstring php-zip php-gd 
+
 RUN apk update && apk add nginx mysql-client php-gettext
 RUN mkdir /run/nginx
 RUN mkdir -p /usr/src/phpmyadmin/tmp/

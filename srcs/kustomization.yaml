@@ -9,12 +9,12 @@ secretGenerator:
   - password=root_password
 
 resources:
-  - 'nginx/nginx.yaml'
+  # - 'nginx/nginx.yaml'
   - 'wordpress/wordpress.yaml'
-  - 'phpmyadmin/phpmyadmin.yaml'
-  - 'ingress/ingress.yaml'
-  - 'mysql/mysql.yaml'
-  - 'influxdb/influxdb.yaml'
-  - 'telegraf/telegraf.yaml'
-  - 'grafana/grafana.yaml'
-  - 'ftps/ftps.yaml'
+  # - 'phpmyadmin/phpmyadmin.yaml'
+  # - 'ingress/ingress.yaml'
+  # - 'mysql/mysql.yaml'
+  # - 'influxdb/influxdb.yaml'
+  # - 'telegraf/telegraf.yaml'
+  # - 'grafana/grafana.yaml'
+  # - 'ftps/ftps.yaml'
