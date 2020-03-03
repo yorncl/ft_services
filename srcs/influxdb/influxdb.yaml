@@ -41,7 +41,7 @@ spec:
         app: influxdb
     spec:
       containers:
-      - image: influxdb:1.5-alpine
+      - image: custom-influxdb:1
         name: influxdb
         # imagePullPolicy: Never
         env:

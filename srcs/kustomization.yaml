@@ -10,11 +10,11 @@ secretGenerator:
 
 resources:
   # - 'nginx/nginx.yaml'
-  - 'wordpress/wordpress.yaml'
+  # - 'wordpress/wordpress.yaml'
   # - 'phpmyadmin/phpmyadmin.yaml'
   # - 'ingress/ingress.yaml'
   # - 'mysql/mysql.yaml'
-  # - 'influxdb/influxdb.yaml'
-  # - 'telegraf/telegraf.yaml'
+  - 'influxdb/influxdb.yaml'
+  - 'telegraf/telegraf.yaml'
   # - 'grafana/grafana.yaml'
   # - 'ftps/ftps.yaml'
