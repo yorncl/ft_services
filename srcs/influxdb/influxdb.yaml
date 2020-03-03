@@ -9,11 +9,11 @@ spec:
     - port: 8086
   selector:
     app: influxdb
----
+# ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
 # metadata:
-#   name: wp-pv-claim
+#   name: influx-claim
 #   labels:
 #     app: influxdb
 # spec:
@@ -22,7 +22,7 @@ spec:
 #   resources:
 #     requests:
 #       storage: 20Gi
-# ---
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,3 +53,10 @@ spec:
           value: okboomer
         ports:
         - containerPort: 8086
+    #    volumeMounts:
+    #     - name: mysql-persistent-storage
+    #       mountPath: /var/lib/mysql
+    # volumes:
+    #   - name: mysql-persistent-storage
+    #     persistentVolumeClaim:
+    #       claimName: mysql-pv-claim
