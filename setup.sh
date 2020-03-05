@@ -19,8 +19,8 @@ minikube addons enable dashboard
 fi
 
 # $ip = $(minikube ip)
-$ip = "192.168.99.128"
-echo "Starting on $ip"
+IP_MINIKUBE="192.168.99.130"
+echo "Starting on $IP_MINIKUBE"
 
 kubectl delete -k srcs
 
@@ -32,7 +32,7 @@ docker build -t custom-influxdb:1 ./srcs/influxdb/
 
 # docker build -t custom-mysql:1 ./srcs/mysql/
 # docker build -t custom-ftps:1 ./srcs/ftps/
-# docker build -t custom-telegraf:1 --build-arg minikube_ip=$ip ./srcs/telegraf/
+# docker build -t custom-telegraf:1 --build-arg minikube_ip=$IP_MINIKUBE ./srcs/telegraf/
 
 
 # kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf -o yaml --dry-run | kubectl replace -f - || kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf
