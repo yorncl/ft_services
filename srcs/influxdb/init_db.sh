@@ -3,12 +3,13 @@ influxd &
 for i in {30..0}
 do
 	echo "Trying to execute queries, attempt: $i"
-	# if influx -execute "CREATE USER \"telegrafist\" WITH PASSWORD \"okboomer\"" &> /dev/null; then
-	# 	influx -execute "CREATE DATABASE \"telegraf\""
-	# 	echo "Created telegraf database"
-	# 	break
-	# fi
-	# echo 'influxdb init process in progress...'
+	if influx -execute "CREATE USER telegrafist WITH PASSWORD 'okboomer' WITH ALL PRIVILEGES"
+	then
+		influx -execute "CREATE DATABASE \"telegraf\""
+		echo "Created telegraf database"
+		break
+	fi
+	echo 'influxdb init process in progress...'
 	sleep 1
 done
 
