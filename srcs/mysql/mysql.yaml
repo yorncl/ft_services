@@ -13,12 +13,28 @@ spec:
   clusterIP: None
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-mysql-volume
+  labels:
+    type: local
+spec:
+  storageClassName: mysql
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mysql"
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-claim
   labels:
     app: mysql
 spec:
+  storageClassName: mysql
   accessModes:
   - ReadWriteOnce
   resources:

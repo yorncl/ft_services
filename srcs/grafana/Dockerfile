@@ -9,4 +9,3 @@ RUN mkdir /grafana &&  tar -C /grafana --strip-components 1 -zxvf grafana-6.6.2.
 ENV PATH=/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 WORKDIR /grafana
 ENTRYPOINT grafana-server
-# ENTRYPOINT tail -f /dev/null

@@ -9,19 +9,35 @@ spec:
     - port: 8086
   selector:
     app: influxdb
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: influx-claim
-#   labels:
-#     app: influxdb
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-influx-volume
+  labels:
+    type: local
+spec:
+  storageClassName: influx
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/influx"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influx-claim
+  labels:
+    app: influxdb
+spec:
+  storageClassName: influx
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,7 +59,7 @@ spec:
       containers:
       - image: custom-influxdb:1
         name: influxdb
-        # imagePullPolicy: Never
+        imagePullPolicy: Never
         env:
         - name: INFLUXDB_DB
           value: telegraf
@@ -53,10 +69,10 @@ spec:
           value: okboomer
         ports:
         - containerPort: 8086
-    #    volumeMounts:
-    #     - name: mysql-persistent-storage
-    #       mountPath: /var/lib/mysql
-    # volumes:
-    #   - name: mysql-persistent-storage
-    #     persistentVolumeClaim:
-    #       claimName: mysql-pv-claim
+        volumeMounts:
+        - name: influx-persistent-storage
+          mountPath: /root/.influxdb/data
+      volumes:
+      - name: influx-persistent-storage
+        persistentVolumeClaim:
+          claimName: influx-claim
