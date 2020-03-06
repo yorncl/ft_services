@@ -50,7 +50,7 @@ spec:
         - name: config-volume-datasources
           mountPath: /grafana/conf/provisioning/datasources
         - name: config-volume-dashboards
-          mountPath: /grafana/conf/provisioning/dashboards
+          mountPath: grafana/conf/provisioning/dashboards
       volumes:
         - name: config-volume-datasources
           configMap:
