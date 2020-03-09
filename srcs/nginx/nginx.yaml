@@ -38,6 +38,8 @@ spec:
   selector:
     matchLabels:
       run: nginx
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
