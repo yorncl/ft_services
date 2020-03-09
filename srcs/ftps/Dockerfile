@@ -15,4 +15,7 @@ COPY ./vsftpd.conf /etc/vsftpd/vsftpd.conf
 RUN sed -i "s/{{{MINIKUBE_IP}}}/$minikube_ip/g" /etc/vsftpd/vsftpd.conf
 COPY ./ftps-selfsigned.crt /etc/ssl/ftps-selfsigned.crt
 COPY ./ftps-selfsigned.key /etc/ssl/ftps-selfsigned.key
-ENTRYPOINT ["/usr/sbin/vsftpd", "/etc/vsftpd/vsftpd.conf"]
+COPY ./entrypoint.sh /entrypoint.sh
+RUn chmod 777 /entrypoint.sh
+# ENTRYPOINT /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+ENTRYPOINT /entrypoint.sh
