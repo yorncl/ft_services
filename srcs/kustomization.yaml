@@ -8,7 +8,7 @@ secretGenerator:
 - name: pma-info
   literals:
   - host=mysql
-  - user=wordpress_user
+  - user=pma
   - password=cestlamafquejprefere
 - name: mysql-pass
   literals:

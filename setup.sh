@@ -1,18 +1,16 @@
-
-if [[ -n  "$1" ]] && [[ "$1" == "start" ]];
+if [[ -n  "$1" ]] && [[ "$1" == "stop" || "$1" == "restart" ]]
 then
+	minikube stop
+fi
 
-# sed -i "s/{{{MINIKUBE_IP}}}/$ip/g" srcs/mysql/create_tables.sql
-# sed -i "s/{{{MINIKUBE_IP}}}/$ip/g" srcs/ftps/vsftpd.conf
-
-
+if [[ -n  "$1" ]] && [[ "$1" == "start" || "$1" == "restart" ]]
+then
 minikube start \
 	--bootstrapper=kubeadm \
 	--extra-config=apiserver.service-node-port-range=1-60000 \
 	--cpus 3 \
 	--memory=3000mb \
 	--vm-driver=virtualbox\
-	# --disk-size=80000mb \
 minikube addons enable ingress
 minikube addons enable metrics-server
 minikube addons enable dashboard
