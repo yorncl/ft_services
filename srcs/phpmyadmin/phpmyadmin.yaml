@@ -43,7 +43,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: pma-info
-              key: pma
+              key: user
         - name: PMA_PASSWORD
           valueFrom:
             secretKeyRef:
