@@ -12,19 +12,6 @@ spec:
     app: grafana
   type: NodePort
 ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: wp-pv-claim
-#   labels:
-#     app: grafana
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 20Gi
-# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
