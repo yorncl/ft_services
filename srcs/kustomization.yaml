@@ -4,6 +4,11 @@ secretGenerator:
   - user-wp=wordpress_user
   - password-wp=efficaceetpascher
   - db-wp=wordpress_db
+- name: pma-info
+  literals:
+  - host=mysql
+  - user=wordpress_user
+  - password=cestlamafquejprefere
 - name: mysql-pass
   literals:
   - password=root_password

@@ -35,11 +35,20 @@ spec:
         name: phpmyadmin
         env:
         - name: PMA_HOST
-          value: mysql
+          valueFrom:
+            secretKeyRef:
+              name: pma-info
+              key: host
         - name: PMA_USER
-          value: pma
+          valueFrom:
+            secretKeyRef:
+              name: pma-info
+              key: pma
         - name: PMA_PASSWORD
-          value: cestlamafquejprefere
+          valueFrom:
+            secretKeyRef:
+              name: pma-info
+              key: password
         ports:
         - containerPort: 80
           name: wordpress
