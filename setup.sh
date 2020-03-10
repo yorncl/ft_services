@@ -36,7 +36,6 @@ docker build -t custom-ftps:1 --build-arg minikube_ip=$IP_MINIKUBE ./srcs/ftps/
 docker build -t custom-telegraf:1 --build-arg minikube_ip=$IP_MINIKUBE ./srcs/telegraf/
 
 
-# kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf -o yaml --dry-run | kubectl replace -f - || kubectl create configmap telegraf-config --from-file=srcs/telegraf/telegraf.conf
 kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/datasource.yaml -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-datasources-config --from-file=srcs/grafana/datasource.yaml
 kubectl create configmap grafana-dashboards-config --from-file=srcs/grafana/dashboards/ -o yaml --dry-run | kubectl replace -f - || kubectl create configmap grafana-dashboards-config --from-file=srcs/grafana/dashboards/
 kubectl apply -k srcs
