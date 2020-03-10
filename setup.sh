@@ -1,4 +1,10 @@
-if [[ -n  "$1" ]] && [[ "$1" == "stop" || "$1" == "restart" ]];
+if [[ -n  "$1" ]] && [[ "$1" == "stop" ]];
+then
+	minikube stop
+	exit 0
+fi
+
+if [[ -n  "$1" ]] && [[ "$1" == "restart" ]];
 then
 	minikube stop
 fi
